@@ -1,0 +1,17 @@
+[project]
+name = "hakusho-rag-agent"
+version = "2.3.0"
+description = "Corrective RAG agent (LangGraph) with hybrid retrieval, page-level citations and a 4-item answer inspection over Japanese government white papers"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p tests.congest"
+pythonpath = ["."]

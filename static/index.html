@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>白書リサーチAI — 根拠付き回答エージェント</title>
+  <meta name="description" content="日本の行政白書から、出典ページ付きで回答するRAGエージェント" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📑</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main>
+    <header class="title">
+      <h1>白書リサーチAI</h1>
+      <p>行政白書5冊を横断検索し、<strong>出典ページ付き</strong>で回答します。すべての回答は<strong>4項目の検品</strong>（出典の付与・出典番号・数値照合・事実確認）を通してから表示し、根拠が見つからない場合は回答しません。続けて質問すると、前の会話を踏まえて回答します。</p>
+    </header>
+
+    <form id="ask-form" class="search" novalidate>
+      <label for="question" class="visually-hidden">質問</label>
+      <textarea id="question" maxlength="500" rows="3" required
+        placeholder="例：日本のスタートアップ投資は主要国と比べてどの水準ですか？（英語の質問にも対応）"></textarea>
+      <div class="search-footer">
+        <span id="char-count" class="hint" aria-live="polite">0 / 500</span>
+        <span class="hint kbd-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> で送信</span>
+        <button id="new-thread" type="button" class="ghost" hidden title="会話履歴をリセット">新しい会話</button>
+        <button id="ask-btn" type="submit">質問する</button>
+      </div>
+    </form>
+
+    <section aria-label="質問例" class="examples" id="examples"></section>
+
+    <fieldset class="filters">
+      <legend>対象の白書（未選択＝すべて）</legend>
+      <div id="doc-filters" class="chips"></div>
+    </fieldset>
+
+    <p id="form-error" class="msg err" role="alert" hidden></p>
+
+    <section id="trace" class="trace" aria-live="polite" hidden>
+      <h2>エージェントの処理過程</h2>
+      <ol id="trace-list"></ol>
+    </section>
+
+    <section id="result" aria-live="polite" hidden></section>
+    <p class="disclaimer">本回答はAIが白書から作成した参考情報です。数値・制度名は、必ず「出典」のPDF原文でご確認ください。</p>
+  </main>
+
+  <footer>
+    <span>LangGraph Corrective RAG · Hybrid Retrieval (BM25 + Embeddings) · Answer Inspection · MCP</span>
+    <span id="health">接続確認中…</span>
+  </footer>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
